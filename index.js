@@ -14,9 +14,6 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-const profileRoutes = require('./routes/profile');
-app.use('/api/profile', profileRoutes);
-
 const expoRoutes = require('./routes/expos');
 app.use('/api/expos', expoRoutes);
 
