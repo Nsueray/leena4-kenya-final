@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Select Badge Fields</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    label { display: block; margin: 5px 0; }
+    input[type="text"] { margin-bottom: 10px; }
+    button { margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>Badge Fields for Expo</h2>
+  <label>
+    Expo ID:
+    <input type="text" id="expo_id" placeholder="Enter expo ID" />
+  </label>
+
+  <label><input type="checkbox" value="company" class="field-check" /> Company</label>
+  <label><input type="checkbox" value="job_title" class="field-check" /> Position</label>
+  <label><input type="checkbox" value="country" class="field-check" /> Country</label>
+  <label><input type="checkbox" value="qr" class="field-check" /> QR Code</label>
+
+  <button onclick="saveFields()">Save</button>
+  <p id="status"></p>
+
+  <script>
+    async function saveFields() {
+      const expoId = document.getElementById('expo_id').value.trim();
+      if (!expoId) return alert("Expo ID required");
+
+      const fields = Array.from(document.querySelectorAll('.field-check'))
+        .filter(cb => cb.checked)
+        .map(cb => cb.value);
+
+      const res = await fetch('/api/badge-fields', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ expo_id: parseInt(expoId), fields })
+      });
+
+      const data = await res.json();
+      document.getElementById('status').textContent = data.message || "Saved.";
+    }
+  </script>
+</body>
+</html>

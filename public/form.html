@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simple Form</title>
+  <style>
+    body { font-family: sans-serif; background-color: #2b2f3a; color: #fff; padding: 20px; }
+    input { margin: 10px 0; padding: 8px; width: 300px; }
+    button { padding: 10px 20px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>Simple Visitor Form</h2>
+  <input id="fullname" placeholder="Full Name" />
+  <input id="email" placeholder="Email Address" />
+  <input id="company" placeholder="Company" />
+  <button onclick="submit()">Submit</button>
+  <p id="msg"></p>
+
+  <script>
+    async function submit() {
+      const res = await fetch('/api/simple-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: document.getElementById('fullname').value,
+          email: document.getElementById('email').value,
+          fields: { company: document.getElementById('company').value }
+        })
+      });
+      const data = await res.json();
+      document.getElementById('msg').textContent = data.message || 'Submitted';
+    }
+  </script>
+</body>
+</html>

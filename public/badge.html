@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Print Badge</title>
+  <style>
+    @media print {
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .badge {
+        page-break-after: always;
+      }
+    }
+    body {
+      background: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    .badge {
+      width: 100mm;
+      height: 50mm;
+      border: 1px solid #000;
+      margin: 0 auto 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .fullname {
+      font-size: 22pt;
+      font-weight: bold;
+    }
+    .company {
+      font-size: 18pt;
+      margin-top: 5px;
+    }
+    .hidden {
+      display: none;
+    }
+    input {
+      margin: 5px;
+      padding: 10px;
+      font-size: 14px;
+      width: 240px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="badge" id="badge">
+    <div class="fullname" id="fullName">Loading...</div>
+    <div class="company" id="company"></div>
+  </div>
+
+  <label>
+    <input type="checkbox" id="manualToggle" />
+    Visitor not found? Register manually
+  </label>
+
+  <div id="manualForm" class="hidden">
+    <input type="text" id="inputName" placeholder="First Name" required />
+    <input type="text" id="inputLastName" placeholder="Last Name" required />
+    <input type="email" id="inputEmail" placeholder="Email" required />
+    <input type="text" id="inputCompany" placeholder="Company" required />
+    <button onclick="submitManual()">Register & Print</button>
+  </div>
+
+  <script>
+    const badgeEl = document.getElementById('badge');
+    const fullNameEl = document.getElementById('fullName');
+    const companyEl = document.getElementById('company');
+    const manualForm = document.getElementById('manualForm');
+    const manualToggle = document.getElementById('manualToggle');
+    let visitorFound = false;
+
+    manualToggle.addEventListener('change', () => {
+      manualForm.classList.toggle('hidden', !manualToggle.checked);
+    });
+
+    async function loadBadge() {
+      const params = new URLSearchParams(window.location.search);
+      const badgeId = params.get('badge_id');
+      if (!badgeId) return;
+
+      try {
+        const res = await fetch('/api/visitors');
+        const data = await res.json();
+        const visitor = data.find(v => v.id === badgeId);
+
+        if (!visitor) {
+          fullNameEl.textContent = 'Visitor Not Found';
+          companyEl.textContent = '';
+          return;
+        }
+
+        visitorFound = true;
+        fullNameEl.textContent = visitor.fullName;
+        companyEl.textContent = visitor.company;
+
+        setTimeout(() => window.print(), 300);
+        window.onafterprint = () => {
+          window.location.href = '/qrscanner.html';
+        };
+      } catch (err) {
+        fullNameEl.textContent = 'Error loading badge';
+        companyEl.textContent = '';
+      }
+    }
+
+    async function submitManual() {
+      const name = document.getElementById('inputName').value.trim();
+      const lastName = document.getElementById('inputLastName').value.trim();
+      const email = document.getElementById('inputEmail').value.trim();
+      const company = document.getElementById('inputCompany').value.trim();
+
+      if (!name || !lastName || !email || !company) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+
+      const res = await fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          lastName,
+          email,
+          company,
+          origin: "onsite",
+          source: "Manual - badge.html"
+        })
+      });
+
+      const result = await res.json();
+      if (result.badgeId) {
+        // Redirect to same page with new badgeId to trigger print
+        window.location.href = `/badge.html?badge_id=${result.badgeId}`;
+      } else {
+        alert('Registration failed.');
+      }
+    }
+
+    loadBadge();
+  </script>
+</body>
+</html>

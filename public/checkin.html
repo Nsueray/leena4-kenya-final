@@ -1,0 +1,68 @@
+Leena EMS — Project Map & System Overview
+==========================================
+
+🔄 Last Updated: 2025-06-16
+
+📁 System Root: leena4-backend
+🖥️ Server Port: 3011
+🎨 Theme: Termal yazıcı dostu sade tasarım, Leena teması bazı sayfalarda henüz uygulanmadı.
+
+──────────────────────────────
+✅ MODULE STATUS OVERVIEW
+──────────────────────────────
+
+1. Visitor Registration (QR+Email)
+   ✔️ Zoho form bağlantısı kuruldu
+   ✔️ QR üretimi ve PNG dosyası
+   ✔️ E-posta gönderimi (SendGrid + domain verified)
+   ✔️ /api/visitors/public/:id → visitor JSON API
+
+2. Badge Printing (100mm x 50mm)
+   ✔️ badge.html sayfası hazır
+   ✔️ Otomatik yazdırma tetikleniyor
+   ✔️ Dinamik alan kontrolü eklendi (expo_id ile)
+   ⬜ Leena teması (arka plan / logo) henüz eklenmedi
+
+3. Check-in System
+   ✔️ /api/checkin/:id → Check-in QR API
+   ✔️ checkin_logs tablosu oluşturuldu
+   ✔️ Otomatik check-in log kaydı
+
+4. Check-in Log View
+   ✔️ checkin.html → tüm girişleri gösteriyor
+   ✔️ /api/checkin-log → ziyaretçi adı, şirket ve saat bilgisi
+   ⬜ Export CSV butonu / filtreleme yok
+   ⬜ Temaya uygunlaştırma yapılmadı
+
+──────────────────────────────
+🔜 NEXT ACTIONS & MODULES
+──────────────────────────────
+
+⬜ Admin panel üzerinden badge fields seçimi (checkbox)
+⬜ Hostes panel: manuel arama + yazdırma
+⬜ Yazıcı bağlantı kontrolü (status indicator)
+⬜ check-in tekrar sayısı gösterimi
+⬜ Günlük istatistik raporu (toplam giriş)
+
+──────────────────────────────
+📄 STATIC HTML PAGES
+──────────────────────────────
+
+- badge.html → Termal etiket yazdırma sayfası (visitor_id + expo_id parametreli)
+- checkin.html → Son girişleri tablo halinde gösteriyor
+- qrscanner.html → Kiosk sayfası, QR okutma için
+
+──────────────────────────────
+📦 DATABASE TABLES
+──────────────────────────────
+
+- visitors
+- checkin_logs
+- badge_fields
+- expos
+- form_fields
+
+──────────────────────────────
+👤 CREATED BY:
+──────────────────────────────
+ChatGPT + Suer, Leena EMS 2025

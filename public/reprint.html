@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Badge Reprint</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input { margin-bottom: 10px; padding: 5px; width: 250px; }
+    table { margin-top: 20px; border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #aaa; padding: 6px; }
+    th { background: #eee; }
+    button { padding: 4px 10px; }
+  </style>
+</head>
+<body>
+  <h2>Search Visitor</h2>
+  <input type="text" id="query" placeholder="Search by name, email or company" />
+  <button onclick="search()">Search</button>
+
+  <table id="results" style="display:none">
+    <thead>
+      <tr><th>Name</th><th>Company</th><th>Badge</th></tr>
+    </thead>
+    <tbody id="resultsBody"></tbody>
+  </table>
+
+  <script>
+    async function search() {
+      const q = document.getElementById('query').value.trim();
+      if (!q) return;
+
+      const res = await fetch(`/api/visitors/search?q=${encodeURIComponent(q)}`);
+      const data = await res.json();
+
+      const tbody = document.getElementById('resultsBody');
+      tbody.innerHTML = "";
+      document.getElementById('results').style.display = 'table';
+
+      data.forEach(v => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${v.name} ${v.last_name}</td>
+          <td>${v.fields?.company || ''}</td>
+          <td><a href="/badge.html?visitor_id=${v.id}&expo_id=${v.expo_id}" target="_blank">Print</a></td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Leena Admin Control Panel</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #2b2d30;
+      color: #f0f0f0;
+      margin: 0;
+      padding: 30px;
+    }
+    h1 {
+      color: #ffcc00;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    h1 img {
+      height: 40px;
+    }
+    .panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .card {
+      background-color: #3a3d42;
+      padding: 20px;
+      width: 240px;
+      border-radius: 12px;
+      text-align: center;
+      transition: 0.3s ease;
+      cursor: pointer;
+    }
+    .card:hover {
+      background-color: #45484d;
+    }
+    .card img {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 10px;
+    }
+    .card p {
+      margin-top: 6px;
+      font-size: 14px;
+      color: #bbb;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  </style>
+</head>
+<body>
+  <h1>
+    <img src="/leena-logo.png" alt="Leena Logo" />
+    Leena Admin Control Panel
+  </h1>
+  <div class="panel">
+    <a href="/badge-fields.html" target="_blank">
+      <div class="card">
+        <img src="https://img.icons8.com/ios-filled/50/badge.png" />
+        <strong>Badge Fields</strong>
+        <p>Select which info shows on the badge per expo</p>
+      </div>
+    </a>
+    <a href="/reprint.html" target="_blank">
+      <div class="card">
+        <img src="https://img.icons8.com/ios-filled/50/print.png" />
+        <strong>Reprint Badge</strong>
+        <p>Search and reprint a badge manually</p>
+      </div>
+    </a>
+    <a href="/checkin.html" target="_blank">
+      <div class="card">
+        <img src="https://img.icons8.com/ios-filled/50/time-machine.png" />
+        <strong>Check-in Logs</strong>
+        <p>View visitor check-in history</p>
+      </div>
+    </a>
+    <a href="/qrscanner.html" target="_blank">
+      <div class="card">
+        <img src="https://img.icons8.com/ios-filled/50/qr-code.png" />
+        <strong>QR Scanner</strong>
+        <p>Use for live on-site QR check-in</p>
+      </div>
+    </a>
+    <a href="/onsiteregistration.html" target="_blank">
+      <div class="card">
+        <img src="https://img.icons8.com/ios-filled/50/add-user-group-man-man.png" />
+        <strong>On-site Registration</strong>
+        <p>Walk-in visitor registration form</p>
+      </div>
+    </a>
+    <a href="/leena-project-map.txt" target="_blank">
+      <div class="card">
+        <img src="https://img.icons8.com/ios-filled/50/document.png" />
+        <strong>Project Map</strong>
+        <p>System summary and roadmap overview</p>
+      </div>
+    </a>
+    <a href="/scanner-inline.html" target="_blank">
+  <div class="card">
+    <img src="https://img.icons8.com/ios-filled/50/barcode-scanner.png" />
+    <strong>Inline QR Print</strong>
+    <p>Scan QR code and auto print badge</p>
+  </div>
+</a>
+<a href="/onsiteregistration.html" target="_blank">
+  <div class="card">
+    <img src="https://img.icons8.com/ios-filled/50/add-user-male.png" />
+    <strong>Onsite Registration</strong>
+    <p>Register new visitor manually at expo desk</p>
+  </div>
+</a>
+<a href="/form.html" target="_blank">
+  <div class="card">
+    <img src="https://img.icons8.com/ios-filled/50/web-form.png" />
+    <strong>Simple Form</strong>
+    <p>Standalone form submission page (alt. to Zoho)</p>
+  </div>
+</a>
+  </div>
+</body>
+</html>
